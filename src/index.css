@@ -1,68 +1,184 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+@theme {
+  --color-forest: #0F1A17;
+  --color-forest-soft: #1B2B26;
+  --color-gold: #C5A267;
+  --color-gold-soft: #D4B98B;
+  --color-bg: #FDFCFA;
+  --color-sand: #F2EEE9;
+  --color-charcoal: #2B2B2B;
+  --color-earth: #5A4634;
+  --color-admin: #14211D;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "IBM Plex Sans", sans-serif;
+  --font-serif: "Playfair Display", serif;
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
+  --radius-premium: 1rem;
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  --shadow-premium: 0 4px 20px rgba(0, 0, 0, 0.02);
+  --shadow-premium-hover: 0 20px 40px rgba(0, 0, 0, 0.04);
+  --shadow-club: 0 30px 60px rgba(15, 26, 23, 0.03);
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+@layer base {
+  body {
+    @apply bg-bg text-charcoal font-sans antialiased selection:bg-gold/20;
   }
-  a:hover {
-    color: #747bff;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading text-forest tracking-tight;
   }
-  button {
-    background-color: #f9f9f9;
+
+  p {
+    @apply leading-[1.8] font-light;
   }
+}
+
+@layer components {
+  .glass-header {
+    @apply bg-white/70 backdrop-blur-xl border-b border-forest/5 sticky top-0 z-50;
+  }
+
+  .btn-premium {
+    @apply bg-forest text-white px-8 py-3.5 rounded-full font-medium transition-all duration-300 hover:bg-forest-soft hover:shadow-xl hover:-translate-y-0.5 active:scale-95 disabled:opacity-50;
+  }
+
+  .btn-premium-outline {
+    @apply border border-forest/20 text-forest px-8 py-3.5 rounded-full font-medium transition-all duration-300 hover:bg-forest/5 hover:border-forest/40;
+  }
+
+  .card-premium {
+    @apply bg-white border border-forest/5 rounded-[2rem] p-8 shadow-premium hover:shadow-premium-hover transition-all duration-500;
+  }
+
+  .nav-link-premium {
+    @apply text-sm font-medium text-forest/60 hover:text-forest transition-colors relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gold after:transition-all hover:after:w-full;
+  }
+}
+
+@keyframes slow-zoom {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1.1);
+  }
+}
+
+.animate-slow-zoom {
+  animation: slow-zoom 20s ease-in-out infinite alternate;
+}
+
+.italic-gold-shimmer {
+  background: linear-gradient(135deg, var(--color-gold) 0%, #fff 50%, var(--color-gold) 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 4s linear infinite;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: 200% center;
+  }
+}
+
+@keyframes fade-in-down {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-down {
+  animation: fade-in-down 1s ease-out forwards;
+}
+
+.bg-gradient-premium {
+  background: radial-gradient(circle at top right, rgba(197, 162, 103, 0.08), transparent 40%),
+    radial-gradient(circle at bottom left, rgba(15, 26, 23, 0.04), transparent 40%),
+    linear-gradient(to bottom, #ffffff, #fcfaf7);
+}
+
+.glass-card {
+  @apply bg-white/40 backdrop-blur-xl border border-white/40;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+}
+
+.card-hover-float {
+  @apply transition-all duration-700;
+}
+
+.card-hover-float:hover {
+  transform: translateY(-1rem);
+  box-shadow: 0 40px 80px rgba(15, 26, 23, 0.1);
+  border-color: rgba(197, 162, 103, 0.2);
+}
+
+.animate-float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+}
+
+.animate-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: reveal 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes float-slow {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes reveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stagger-1 {
+  animation-delay: 0.1s;
+}
+
+.stagger-2 {
+  animation-delay: 0.2s;
+}
+
+.stagger-3 {
+  animation-delay: 0.3s;
+}
+
+.stagger-4 {
+  animation-delay: 0.4s;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
 }
